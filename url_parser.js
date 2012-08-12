@@ -33,7 +33,7 @@ function UrlParser(url){
 
 	this.result.param = new Array();
 	if(this.queryStart != -1){
-		var numberPattern = new RegExp("[0-9]*");
+		var numberPattern = new RegExp("^[0-9]$");
 		
 		var querys = this.url.substring(this.queryStart, this.fragmentStart - 1).split("&");
 		for(var i = 0; i < querys.length; i++){
