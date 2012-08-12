@@ -30,8 +30,27 @@ function UrlParser(url){
 		this.result.path = this.url.substring(this.pathStart, this.queryStart - 1).split("/");
 	}
 
+
+	this.result.param = new Array();
 	if(this.queryStart != -1){
-		this.result.param = this.url.substring(this.queryStart, this.fragmentStart - 1).split("&");
+		var numberPattern = new RegExp("[0-9]*");
+		
+		var querys = this.url.substring(this.queryStart, this.fragmentStart - 1).split("&");
+		for(var i = 0; i < querys.length; i++){
+			var query = querys[i].split("=");
+			var rawvalue = query[1];
+			var value;
+			if(rawvalue.toLowerCase() == "true")
+				value = true;
+			else if(rawvalue.toLowerCase() == "false")
+				value = false;
+			else if(numberPattern.test(rawvalue))
+				value = parseInt(rawvalue);
+			else
+				value = rawvalue;
+
+			this.result.param.push({"name" : query[0], "value" : value});
+		}
 	}
 
 	this.result.fragment = new Array();

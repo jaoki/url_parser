@@ -23,7 +23,7 @@
 				],
 				"param" : [
 					{
-						"name" : "1", 
+						"name" : "a", 
 						"value" : "some"
 					},
 					{
@@ -41,6 +41,23 @@
 			};
 
 			deepEqual(parser.parse(), expected, "");
+
+
+			// TODO add more url tests
+			// TODO http://example.com/path1/path2?a=some&b=1&c=true#target1
+
+			// TODO http://example.com?a=some&b=1&c=true#target1
+			// TODO http://example.com/path1/path2#target1
+			// TODO http://example.com/path1/path2?a=some&b=1&c=true
+
+			// TODO http://example.com?a=some&b=1&c=true
+			// TODO http://example.com#target1
+			// TODO http://example.com/path1/path2
+
+			// TODO http://example.com?a=&b=1&c=true
+			// TODO http://example.com?a=12.34&b=TRUE&c=FALSE
+			// TODO http://example.com?a=12.
+			// TODO http://example.com?a=.34
 
 		});
 
