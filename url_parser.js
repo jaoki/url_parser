@@ -18,11 +18,26 @@ function UrlParser(url){
 		this.url = url;
 
 	this.hostnameStart = url.indexOf("://") + 3;
-	this.pathStart = url.substring(this.hostnameStart).indexOf("/");
+	this.pathStart = url.substring(this.hostnameStart).indexOf("/") + this.hostnameStart + 1;
+	this.queryStart = url.indexOf("?") + 1;
+	this.fragmentStart = url.indexOf("#") + 1;
 
-	this.pathStart = url.substring().indexOf("/");
-	this.queryStart = url.indexOf("?");
-	this.targetStart = url.indexOf("#");
+	this.result = new Object();
+
+	if(this.queryStart == -1){
+		this.result.path = new Array();
+	}else{
+		this.result.path = this.url.substring(this.pathStart, this.queryStart - 1).split("/");
+	}
+
+	if(this.queryStart != -1){
+		this.result.param = this.url.substring(this.queryStart, this.fragmentStart - 1).split("&");
+	}
+
+	this.result.fragment = new Array();
+	if(this.fragmentStart != -1){
+		this.result.fragment[0] = this.url.substring(this.fragmentStart);
+	}
 
 };
 
@@ -34,8 +49,20 @@ UrlParser.prototype.getHostnameStart = function() {
     return this.hostnameStart;
 };
 
-UrlParser.prototype.parse = function() {
+UrlParser.prototype.getPathStart = function() {
+    return this.pathStart;
+};
 
+UrlParser.prototype.getQueryStart = function() {
+    return this.queryStart;
+};
+
+UrlParser.prototype.getFragmentStart = function() {
+    return this.fragmentStart;
+};
+
+UrlParser.prototype.parse = function() {
+	return this.result;
 };
 
 

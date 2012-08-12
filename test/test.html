@@ -5,14 +5,44 @@
 	<script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.9.0.js"></script>
 
 	<script type="text/javascript">
-		var parser = new UrlParser("http://example.com?a=some&amp;b=1&amp;c=true");
+		var parser = new UrlParser("http://example.com/path1/path2?a=some&b=1&c=true#target1");
 
 		test("test1", function(){
-			ok(typeof parser == "object", "parser was not instantiated");
-			ok(parser.getUrl() == "http://example.com?a=some&amp;b=1&amp;c=true", "getUrl() failed");
-			ok(parser.getHostnameStart() == 7, "");
-		});
+			strictEqual(typeof parser, "object", "parser was not instantiated");
+			strictEqual(parser.getUrl(), "http://example.com/path1/path2?a=some&b=1&c=true#target1", "getUrl() failed");
+			strictEqual(parser.getHostnameStart(), 7, "");
+			strictEqual(parser.getPathStart(), 19, "");
+			strictEqual(parser.getQueryStart(), 31, "");
 
+
+			var expected =
+			{
+				"path" : [
+					"path1",
+					"path2"
+				],
+				"param" : [
+					{
+						"name" : "1", 
+						"value" : "some"
+					},
+					{
+						"name" : "b", 
+						"value" : 1 
+					},
+					{
+						"name" : "c", 
+						"value" : true
+					},
+				],
+				"fragment" : [
+					"target1"
+				]
+			};
+
+			deepEqual(parser.parse(), expected, "");
+
+		});
 
 	</script>
 
