@@ -1,53 +1,55 @@
 Do not use it is under development!
-==========
+----
 
 url_parser
 ==========
 
-parse url like http://example.com/path1/path2?a=some&b=1&c=true#target1" to
+parse urls like `http://example.com/path1/path2?a=some&b=1&c=true#target1` to
 
-{
-	"path" : [
-		"path1",
-		"path2"
-	],
-	"param" : [
-		{
-			"name" : "1", 
-			"value" : "some"
-		},
-		{
-			"name" : "b", 
-			"value" : 1 
-		},
-		{
-			"name" : "c", 
-			"value" : true
-		},
-	],
-	"fragment" : [
-		"target1"
-	]
-}
+    {
+    	"path" : [
+    		"path1",
+    		"path2"
+    	],
+    	"param" : [
+    		{
+    			"name" : "1", 
+    			"value" : "some"
+    		},
+    		{
+    			"name" : "b", 
+    			"value" : 1 
+    		},
+    		{
+    			"name" : "c", 
+    			"value" : true
+    		},
+    	],
+    	"fragment" : [
+    		"target1"
+    	]
+    }
+
+
 
 Usage
 -------
-var parser = UrlParser("http://example.com/path1/path2?a=some&b=1&c=true#target1");
-var result = parser.parse(); 
-
-result.path[0] // --> "path1"
-result.path[1] // --> "path2"
-
-result.param[0].name  // --> "a"
-result.param[0].value  // --> "some"
-
-result.param[1].name  // --> "b"
-result.param[1].value  // --> 1
-
-result.param[2].name  // --> "c"
-result.param[2].value  // --> true
-
-result.fragment[0]  // --> "target1"
+    var parser = UrlParser("http://example.com/path1/path2?a=some&b=1&c=true#target1");
+    var result = parser.parse(); 
+    
+    console.log(result.path[0]); // --> "path1"
+    console.log(result.path[1]); // --> "path2"
+    
+    console.log(result.param[0].name);  // --> "a"
+    console.log(result.param[0].value);  // --> "some"
+    
+    console.log(result.param[1].name);  // --> "b"
+    console.log(result.param[1].value);  // --> 1
+    
+    console.log(result.param[2].name);  // --> "c"
+    console.log(result.param[2].value);  // --> true
+    
+    console.log(result.fragment[0]);  // --> "target1"
 
 
 
