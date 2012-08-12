@@ -40,7 +40,11 @@
 				]
 			};
 
-			deepEqual(parser.parse(), expected, "");
+			var actual = parser.parse();
+			deepEqual(actual, expected, "");
+
+			strictEqual(actual.getValue("a"), "some");
+			
 
 
 			// TODO add more url tests

@@ -64,18 +64,22 @@ UrlParser.prototype.getUrl = function() {
     return this.url;
 };
 
+// TODO hide this
 UrlParser.prototype.getHostnameStart = function() {
     return this.hostnameStart;
 };
 
+// TODO hide this
 UrlParser.prototype.getPathStart = function() {
     return this.pathStart;
 };
 
+// TODO hide this
 UrlParser.prototype.getQueryStart = function() {
     return this.queryStart;
 };
 
+// TODO hide this
 UrlParser.prototype.getFragmentStart = function() {
     return this.fragmentStart;
 };

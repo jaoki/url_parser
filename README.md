@@ -4,7 +4,12 @@ Do not use it is under development!
 url_parser
 ==========
 
-parse urls like `http://example.com/path1/path2?a=some&b=1&c=true#target1` to
+TODO ???? is it true?
+url_parser is to parse paths, query parameters and fragment of urls into json format.
+
+It is under the MIT license.
+
+For example, it parses `http://example.com/path1/path2?a=some&b=1&c=true#target1` to
 
     {
     	"path" : [
@@ -13,7 +18,7 @@ parse urls like `http://example.com/path1/path2?a=some&b=1&c=true#target1` to
     	],
     	"param" : [
     		{
-    			"name" : "1", 
+    			"name" : "a", 
     			"value" : "some"
     		},
     		{
@@ -34,23 +39,33 @@ parse urls like `http://example.com/path1/path2?a=some&b=1&c=true#target1` to
 
 Usage
 -------
-    var parser = UrlParser("http://example.com/path1/path2?a=some&b=1&c=true#target1");
+
+    var parser = new UrlParser("http://example.com/path1/path2?a=some&b=1&c=true#target1");
     var result = parser.parse(); 
     
-    console.log(result.path[0]); // --> "path1"
-    console.log(result.path[1]); // --> "path2"
+    result.paths.get(0); // --> "path1"
+    result.paths.get(1); // --> "path2"
+    result.paths.exist("path2"); // --> true
+    result.paths.exist("somepath"); // --> false
+    result.paths.indexOf("path1"); // --> 0
+    result.paths.indexOf("path2"); // --> 1
     
-    console.log(result.param[0].name);  // --> "a"
-    console.log(result.param[0].value);  // --> "some"
+    result.fragment;  // --> "target1"
     
-    console.log(result.param[1].name);  // --> "b"
-    console.log(result.param[1].value);  // --> 1
+    result.params.get(0).name;  // --> "a"
+    result.params.get(0).value;  // --> "some" as string
+    result.params.get('a');  // --> "some" as string
+    result.params.exist('a'); // --> true
     
-    console.log(result.param[2].name);  // --> "c"
-    console.log(result.param[2].value);  // --> true
+    result.params.get(1).name;  // --> "b"
+    result.params.get(1).value;  // --> 1 as number
+    result.params.get('b');  // --> 1 as number
+    result.params.exist('b'); // --> true
     
-    console.log(result.fragment[0]);  // --> "target1"
-
+    result.params.get(2).name;  // --> "c"
+    result.params.get(2).value;  // --> true as boolean
+    result.params.get('c');  // --> true as boolean
+    result.params.exist('c'); // --> true
 
 
 License
