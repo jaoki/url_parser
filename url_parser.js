@@ -17,18 +17,44 @@ function UrlParser(url){
 	else
 		this.url = url;
 
+	// TODO those will be private
 	this.hostnameStart = url.indexOf("://") + 3;
 	this.pathStart = url.substring(this.hostnameStart).indexOf("/") + this.hostnameStart + 1;
 	this.queryStart = url.indexOf("?") + 1;
 	this.fragmentStart = url.indexOf("#") + 1;
 
+	// analyze path
+
+	function PathClass(paths){
+		var _paths = paths;
+		this.get = function(index){
+			return _paths[index];
+		}
+	}
+
+
 	this.result = new Object();
 
 	if(this.queryStart == -1){
-		this.result.path = new Array();
+		this.result.paths = new PathClass(new Array());
 	}else{
-		this.result.path = this.url.substring(this.pathStart, this.queryStart - 1).split("/");
+		this.result.paths = new PathClass(this.url.substring(this.pathStart, this.queryStart - 1).split("/"));
 	}
+
+
+	// Analyze query parameters
+//	function ParamsClass(paths){
+//		var _paths = paths;
+//		this.get = function(index){
+//			if(typeof index == "string"){
+//				return _paths[index];
+//			}else if(typeof index == "number"){
+//				return _paths[index];
+//			}else{
+//				return null;
+//			}
+//		}
+//	}
 
 
 	this.result.param = new Array();

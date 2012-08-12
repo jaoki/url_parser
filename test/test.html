@@ -8,11 +8,11 @@
 		var parser = new UrlParser("http://example.com/path1/path2?a=some&b=1&c=true#target1");
 
 		test("test1", function(){
-			strictEqual(typeof parser, "object", "parser was not instantiated");
-			strictEqual(parser.getUrl(), "http://example.com/path1/path2?a=some&b=1&c=true#target1", "getUrl() failed");
-			strictEqual(parser.getHostnameStart(), 7, "");
-			strictEqual(parser.getPathStart(), 19, "");
-			strictEqual(parser.getQueryStart(), 31, "");
+			strictEqual(typeof parser, "object");
+			strictEqual(parser.getUrl(), "http://example.com/path1/path2?a=some&b=1&c=true#target1");
+			strictEqual(parser.getHostnameStart(), 7);
+			strictEqual(parser.getPathStart(), 19);
+			strictEqual(parser.getQueryStart(), 31);
 
 
 			var expected =
@@ -41,6 +41,14 @@
 			};
 
 			var actual = parser.parse();
+
+			strictEqual(actual.paths.get(0), "path1");
+			strictEqual(actual.paths.get(1), "path2");
+
+			strictEqual(actual.params.get(0).name, "a");
+			strictEqual(actual.params.get(0).value, "some");
+			strictEqual(actual.params.get('a'), "some");
+
 			deepEqual(actual, expected, "");
 
 			strictEqual(actual.getValue("a"), "some");

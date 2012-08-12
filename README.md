@@ -45,28 +45,32 @@ Usage
     
     result.paths.get(0); // --> "path1"
     result.paths.get(1); // --> "path2"
-    result.paths.exist("path2"); // --> true
-    result.paths.exist("somepath"); // --> false
-    result.paths.indexOf("path1"); // --> 0
-    result.paths.indexOf("path2"); // --> 1
     
     result.fragment;  // --> "target1"
     
     result.params.get(0).name;  // --> "a"
     result.params.get(0).value;  // --> "some" as string
     result.params.get('a');  // --> "some" as string
-    result.params.exist('a'); // --> true
     
     result.params.get(1).name;  // --> "b"
     result.params.get(1).value;  // --> 1 as number
     result.params.get('b');  // --> 1 as number
-    result.params.exist('b'); // --> true
     
     result.params.get(2).name;  // --> "c"
     result.params.get(2).value;  // --> true as boolean
     result.params.get('c');  // --> true as boolean
-    result.params.exist('c'); // --> true
 
+In Future
+----------
+    result.paths.exist("path2"); // --> true
+    result.paths.exist("somepath"); // --> false
+    result.paths.indexOf("path1"); // --> 0
+    result.paths.indexOf("path2"); // --> 1
+    
+    result.params.exist('a'); // --> true
+
+    result.params.exist('b'); // --> true
+    result.params.exist('c'); // --> true
 
 License
 -------
