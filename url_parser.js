@@ -11,19 +11,26 @@
  *
  */
 
+/*jslint nomen: true, white: true */
+"use strict";
+
 function UrlParser(url){
-	if(typeof url == "undefined")
-		this.url = window.location.href;
-	else
-		this.url = url;
+	var _url;
+	if(typeof url === "undefined"){
+		_url = window.location.href;
+	}else{
+		_url = url;
+	}
+
+	var _hostnameStart = _url.indexOf("://") + 3;
 
 	// TODO those will be private
-	this.hostnameStart = url.indexOf("://") + 3;
-	this.pathStart = url.substring(this.hostnameStart).indexOf("/") + this.hostnameStart + 1;
-	this.queryStart = url.indexOf("?") + 1;
-	this.fragmentStart = url.indexOf("#") + 1;
+	this.pathStart = _url.substring(_hostnameStart).indexOf("/") + _hostnameStart + 1;
 
-	this.result = new Object();
+	var _queryStart = _url.indexOf("?") + 1;
+	var _fragmentStart = _url.indexOf("#") + 1;
+
+	var _result = new Object();
 
 	// analyze path
 	function PathClass(paths){
@@ -33,10 +40,10 @@ function UrlParser(url){
 		}
 	}
 
-	if(this.queryStart == -1){
-		this.result.paths = new PathClass(new Array());
+	if(this.pathStart === 0){
+		_result.paths = new PathClass(new Array());
 	}else{
-		this.result.paths = new PathClass(this.url.substring(this.pathStart, this.queryStart - 1).split("/"));
+		_result.paths = new PathClass(_url.substring(this.pathStart, _queryStart - 1).split("/"));
 	}
 
 	// Analyze query parameters
@@ -57,10 +64,10 @@ function UrlParser(url){
 
 
 	var params = new Array();
-	if(this.queryStart != -1){
+	if(_queryStart != 0){
 		var numberPattern = new RegExp("^[0-9]$");
 		
-		var querys = this.url.substring(this.queryStart, this.fragmentStart - 1).split("&");
+		var querys = _url.substring(_queryStart, _fragmentStart - 1).split("&");
 		for(var i = 0; i < querys.length; i++){
 			var query = querys[i].split("=");
 			var rawvalue = query[1];
@@ -78,41 +85,25 @@ function UrlParser(url){
 		}
 	}
 
-	this.result.params = new ParamsClass(params);
+	_result.params = new ParamsClass(params);
 
-	if(this.fragmentStart != -1){
-		this.result.fragment = this.url.substring(this.fragmentStart);
+	if(_fragmentStart != 0){
+		_result.fragment = _url.substring(_fragmentStart);
 	}
 
-};
+	this.getUrl = function() {
+		return _url;
+	};
 
-UrlParser.prototype.getUrl = function() {
-    return this.url;
-};
+	this.parse = function() {
+		return _result;
+	};
 
-// TODO hide this
-UrlParser.prototype.getHostnameStart = function() {
-    return this.hostnameStart;
 };
 
 // TODO hide this
 UrlParser.prototype.getPathStart = function() {
     return this.pathStart;
 };
-
-// TODO hide this
-UrlParser.prototype.getQueryStart = function() {
-    return this.queryStart;
-};
-
-// TODO hide this
-UrlParser.prototype.getFragmentStart = function() {
-    return this.fragmentStart;
-};
-
-UrlParser.prototype.parse = function() {
-	return this.result;
-};
-
 
 
