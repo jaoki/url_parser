@@ -14,44 +14,28 @@
 			strictEqual(parser.getPathStart(), 19);
 			strictEqual(parser.getQueryStart(), 31);
 
+			var result = parser.parse();
 
-			var expected =
-			{
-				"path" : [
-					"path1",
-					"path2"
-				],
-				"param" : [
-					{
-						"name" : "a", 
-						"value" : "some"
-					},
-					{
-						"name" : "b", 
-						"value" : 1 
-					},
-					{
-						"name" : "c", 
-						"value" : true
-					},
-				],
-				"fragment" : [
-					"target1"
-				]
-			};
+			strictEqual(result.paths.get(0), "path1");
+			strictEqual(result.paths.get(1), "path2");
+			strictEqual(result.paths.get(2), undefined);
+			strictEqual(result.paths._paths, undefined, "paths is encapsulated");
 
-			var actual = parser.parse();
+			strictEqual(result.fragment, "target1", "fragment test");
 
-			strictEqual(actual.paths.get(0), "path1");
-			strictEqual(actual.paths.get(1), "path2");
+			strictEqual(result.params.get(0).name, "a");
+			strictEqual(result.params.get(0).value, "some");
+			strictEqual(result.params.get('a'), "some");
 
-			strictEqual(actual.params.get(0).name, "a");
-			strictEqual(actual.params.get(0).value, "some");
-			strictEqual(actual.params.get('a'), "some");
+			strictEqual(result.params.get(1).name, "b");
+			strictEqual(result.params.get(1).value, 1);
+			strictEqual(result.params.get('b'), 1);
 
-			deepEqual(actual, expected, "");
+			strictEqual(result.params.get(2).name, "c");
+			strictEqual(result.params.get(2).value, true);
+			strictEqual(result.params.get('c'), true);
 
-			strictEqual(actual.getValue("a"), "some");
+
 			
 
 

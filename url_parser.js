@@ -23,8 +23,9 @@ function UrlParser(url){
 	this.queryStart = url.indexOf("?") + 1;
 	this.fragmentStart = url.indexOf("#") + 1;
 
-	// analyze path
+	this.result = new Object();
 
+	// analyze path
 	function PathClass(paths){
 		var _paths = paths;
 		this.get = function(index){
@@ -32,32 +33,30 @@ function UrlParser(url){
 		}
 	}
 
-
-	this.result = new Object();
-
 	if(this.queryStart == -1){
 		this.result.paths = new PathClass(new Array());
 	}else{
 		this.result.paths = new PathClass(this.url.substring(this.pathStart, this.queryStart - 1).split("/"));
 	}
 
-
 	// Analyze query parameters
-//	function ParamsClass(paths){
-//		var _paths = paths;
-//		this.get = function(index){
-//			if(typeof index == "string"){
-//				return _paths[index];
-//			}else if(typeof index == "number"){
-//				return _paths[index];
-//			}else{
-//				return null;
-//			}
-//		}
-//	}
+	function ParamsClass(params){
+		var _params = params;
+		this.get = function(index){
+			if(typeof index == "string"){
+				for(var i = 0; i < _params.length; i++){
+					if(_params[i].name == index){
+						return _params[i].value;
+					}
+				}
+			}else if(typeof index == "number"){
+				return _params[index];
+			}
+		}
+	}
 
 
-	this.result.param = new Array();
+	var params = new Array();
 	if(this.queryStart != -1){
 		var numberPattern = new RegExp("^[0-9]$");
 		
@@ -75,13 +74,14 @@ function UrlParser(url){
 			else
 				value = rawvalue;
 
-			this.result.param.push({"name" : query[0], "value" : value});
+			params.push({"name" : query[0], "value" : value});
 		}
 	}
 
-	this.result.fragment = new Array();
+	this.result.params = new ParamsClass(params);
+
 	if(this.fragmentStart != -1){
-		this.result.fragment[0] = this.url.substring(this.fragmentStart);
+		this.result.fragment = this.url.substring(this.fragmentStart);
 	}
 
 };
