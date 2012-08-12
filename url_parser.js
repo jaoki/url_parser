@@ -11,7 +11,7 @@
  *
  */
 
-/*jslint nomen: true, white: true */
+/*jslint nomen: true, white: true, browser : true */
 "use strict";
 
 function UrlParser(url){
@@ -29,9 +29,11 @@ function UrlParser(url){
 
 	var _queryExist = _url.indexOf("?") !== -1;
 	var _queryStart = _url.indexOf("?") + 1;
+
+	var _fragmentExist = _url.indexOf("#") !== -1;
 	var _fragmentStart = _url.indexOf("#") + 1;
 
-	var _result = new Object();
+	var _result = {};
 
 	// analyze path
 	function PathsClass(paths){
@@ -39,12 +41,11 @@ function UrlParser(url){
 
 		this.get = function(index){
 			return _paths[index];
-		}
+		};
 
 		this.length = function(){
 			return _paths.length;
-		}
-
+		};
 
 	}
 
@@ -62,7 +63,7 @@ function UrlParser(url){
 	function ParamsClass(params){
 		var _params = params;
 		this.get = function(index){
-			if(typeof index == "string"){
+			if(typeof index === "string"){
 				for(var i = 0; i < _params.length; i++){
 					if(_params[i].name == index){
 						return _params[i].value;
@@ -77,9 +78,14 @@ function UrlParser(url){
 
 	var params = new Array();
 	if(_queryStart != 0){
-		var numberPattern = new RegExp("^[0-9]$");
+		var numberPattern = new RegExp("^[0-9]*$");
 		
-		var querys = _url.substring(_queryStart, _fragmentStart - 1).split("&");
+		var querys;
+		if(_fragmentExist){
+			querys = _url.substring(_queryStart, _fragmentStart - 1).split("&");
+		}else{
+			querys = _url.substring(_queryStart).split("&");
+		}
 		for(var i = 0; i < querys.length; i++){
 			var query = querys[i].split("=");
 			var rawvalue = query[1];

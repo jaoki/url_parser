@@ -35,25 +35,6 @@
 			strictEqual(result.params.get(2).value, true);
 			strictEqual(result.params.get('c'), true);
 
-
-			
-
-
-			// TODO add more url tests
-
-			// TODO http://example.com?a=some&b=1&c=true#target1
-			// TODO http://example.com/path1/path2#target1
-			// TODO http://example.com/path1/path2?a=some1&b=1&c=true
-
-			// TODO http://example.com?a=some&b=1&c=true
-			// TODO http://example.com#target1
-			// TODO http://example.com/path1/path2
-
-			// TODO http://example.com?a=&b=1&c=true
-			// TODO http://example.com?a=12.34&b=TRUE&c=FALSE
-			// TODO http://example.com?a=12.
-			// TODO http://example.com?a=.34
-
 		});
 
 		test("test without constructor parameter", function(){
@@ -74,6 +55,30 @@
 			strictEqual(result.fragment, undefined, "no fragment");
 
 		});
+
+		test("simple", function(){
+			var parser = new UrlParser("http://example.com?a=12");
+			var result = parser.parse();
+			strictEqual(result.params.get(0).name, "a");
+			strictEqual(result.params.get(0).value, 12);
+			strictEqual(result.params.get("a"), 12);
+
+		});
+
+			// TODO add more url tests
+
+			// TODO http://example.com?a=some&b=1&c=true#target1
+			// TODO http://example.com/path1/path2#target1
+			// TODO http://example.com/path1/path2?a=some1&b=1&c=true
+
+			// TODO http://example.com?a=some&b=1&c=true
+			// TODO http://example.com#target1
+			// TODO http://example.com/path1/path2
+
+			// TODO http://example.com?a=&b=1&c=true
+			// TODO http://example.com?a=12.34&b=TRUE&c=FALSE
+			// TODO http://example.com?a=12.
+			// TODO http://example.com?a=.34
 
 	</script>
 
