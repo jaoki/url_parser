@@ -61,7 +61,16 @@
 			ok(parser.getUrl().indexOf("/test.html") != -1);
 
 			var result = parser.parse();
-			strictEqual(result.paths.get(0), "path1");
+
+			var fileNameFound = false;
+			for(var i = 0; i < result.paths.length(); i++){
+				if(result.paths.get(i) === "test.html"){
+					fileNameFound = true;
+					break;
+				}
+			}
+			ok(fileNameFound, "test.html should be in one of the path");
+
 			strictEqual(result.fragment, undefined, "no fragment");
 
 		});

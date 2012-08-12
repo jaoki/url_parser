@@ -22,28 +22,40 @@ function UrlParser(url){
 		_url = url;
 	}
 
-	var _hostnameStart = _url.indexOf("://") + 3;
+	var _protocolEnds = _url.indexOf("://") + 3;
 
 	// TODO those will be private
-	this.pathStart = _url.substring(_hostnameStart).indexOf("/") + _hostnameStart + 1;
+	this.pathStart = _url.substring(_protocolEnds).indexOf("/") + _protocolEnds + 1;
 
+	var _queryExist = _url.indexOf("?") !== -1;
 	var _queryStart = _url.indexOf("?") + 1;
 	var _fragmentStart = _url.indexOf("#") + 1;
 
 	var _result = new Object();
 
 	// analyze path
-	function PathClass(paths){
+	function PathsClass(paths){
 		var _paths = paths;
+
 		this.get = function(index){
 			return _paths[index];
 		}
+
+		this.length = function(){
+			return _paths.length;
+		}
+
+
 	}
 
 	if(this.pathStart === 0){
-		_result.paths = new PathClass(new Array());
+		_result.paths = new PathsClass(new Array());
 	}else{
-		_result.paths = new PathClass(_url.substring(this.pathStart, _queryStart - 1).split("/"));
+		if(_queryExist){
+			_result.paths = new PathsClass(_url.substring(this.pathStart, _queryStart - 1).split("/"));
+		}else{
+			_result.paths = new PathsClass(_url.substring(this.pathStart).split("/"));
+		}
 	}
 
 	// Analyze query parameters
