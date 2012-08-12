@@ -1,7 +1,41 @@
+Do not use it is under development!
+==========
+
 url_parser
 ==========
 
-parse url like http://example.com?a=some&amp;b=1&amp;c=true to {"a" : "some", "b" : 1, "c" : true}
+parse url like http://example.com/path1/path2?a=some&b=1&c=true#target1" to
+
+[
+	{
+		param : {
+			"a" : "some"
+		}
+	}, 
+	{"b" : 1}, 
+	{"c" : true}
+]
+
+Usage
+-------
+var parser = UrlParser("http://example.com/path1/path2?a=some&b=1&c=true#target1");
+var result = parser.parseJson(); 
+
+result.path[0].name // --> "path1"
+result.path[1].name // --> "path2"
+
+result.param[0].name  // --> "a"
+result.param[0].value  // --> "some"
+
+result.param[1].name  // --> "b"
+result.param[1].value  // --> 1
+
+result.param[2].name  // --> "c"
+result.param[2].value  // --> true
+
+result.fragment  // --> "target1"
+
+
 
 License
 -------
