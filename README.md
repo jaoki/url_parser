@@ -1,41 +1,9 @@
-Do not use it is under development!
-----
-
 url_parser
 ==========
 
-TODO ???? is it true?
-url_parser is to parse paths, query parameters and fragment of urls into json format.
+url_parser is to parse urls into paths, query parameters and fragment.
 
 It is under the MIT license.
-
-For example, it parses `http://example.com/path1/path2?a=some&b=1&c=true#target1` to
-
-    {
-    	"path" : [
-    		"path1",
-    		"path2"
-    	],
-    	"param" : [
-    		{
-    			"name" : "a", 
-    			"value" : "some"
-    		},
-    		{
-    			"name" : "b", 
-    			"value" : 1 
-    		},
-    		{
-    			"name" : "c", 
-    			"value" : true
-    		},
-    	],
-    	"fragment" : [
-    		"target1"
-    	]
-    }
-
-
 
 Usage
 -------
@@ -60,7 +28,7 @@ Usage
     result.params.get(2).value;  // --> true as boolean
     result.params.get('c');  // --> true as boolean
 
-In Future
+In Future (Not Implemented yet)
 ----------
     result.paths.exist("path2"); // --> true
     result.paths.exist("somepath"); // --> false
