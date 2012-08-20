@@ -24,6 +24,7 @@ Usage
     result.params.get(1).value;  // --> 1 as number
     result.params.get('b');  // --> 1 as number
     
+
     result.params.get(2).name;  // --> "c"
     result.params.get(2).value;  // --> true as boolean
     result.params.get('c');  // --> true as boolean
