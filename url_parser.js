@@ -33,8 +33,6 @@ function UrlParser(url){
 	var _fragmentExist = _url.indexOf("#") !== -1;
 	var _fragmentStart = _url.indexOf("#") + 1;
 
-	var _result = {};
-
 	// analyze path
 	function PathsClass(paths){
 		var _paths = paths;
@@ -50,12 +48,12 @@ function UrlParser(url){
 	}
 
 	if(this.pathStart === 0){
-		_result.paths = new PathsClass(new Array());
+		this.paths = new PathsClass(new Array());
 	}else{
 		if(_queryExist){
-			_result.paths = new PathsClass(_url.substring(this.pathStart, _queryStart - 1).split("/"));
+			this.paths = new PathsClass(_url.substring(this.pathStart, _queryStart - 1).split("/"));
 		}else{
-			_result.paths = new PathsClass(_url.substring(this.pathStart).split("/"));
+			this.paths = new PathsClass(_url.substring(this.pathStart).split("/"));
 		}
 	}
 
@@ -103,10 +101,10 @@ function UrlParser(url){
 		}
 	}
 
-	_result.params = new ParamsClass(params);
+	this.params = new ParamsClass(params);
 
 	if(_fragmentStart != 0){
-		_result.fragment = _url.substring(_fragmentStart);
+		this.fragment = _url.substring(_fragmentStart);
 	}
 
 	this.getUrl = function() {
@@ -114,7 +112,7 @@ function UrlParser(url){
 	};
 
 	this.parse = function() {
-		return _result;
+		return this;
 	};
 
 };

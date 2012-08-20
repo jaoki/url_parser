@@ -9,37 +9,36 @@ Usage
 -------
 
     var parser = new UrlParser("http://example.com/path1/path2?a=some&b=1&c=true#target1");
-    var result = parser.parse(); 
     
-    result.paths.get(0); // --> "path1"
-    result.paths.get(1); // --> "path2"
+    parser.paths.get(0); // --> "path1"
+    parser.paths.get(1); // --> "path2"
     
-    result.fragment;  // --> "target1"
+    parser.fragment;  // --> "target1"
     
-    result.params.get(0).name;  // --> "a"
-    result.params.get(0).value;  // --> "some" as string
-    result.params.get('a');  // --> "some" as string
+    parser.params.get(0).name;  // --> "a"
+    parser.params.get(0).value;  // --> "some" as string
+    parser.params.get('a');  // --> "some" as string
     
-    result.params.get(1).name;  // --> "b"
-    result.params.get(1).value;  // --> 1 as number
-    result.params.get('b');  // --> 1 as number
+    parser.params.get(1).name;  // --> "b"
+    parser.params.get(1).value;  // --> 1 as number
+    parser.params.get('b');  // --> 1 as number
     
 
-    result.params.get(2).name;  // --> "c"
-    result.params.get(2).value;  // --> true as boolean
-    result.params.get('c');  // --> true as boolean
+    parser.params.get(2).name;  // --> "c"
+    parser.params.get(2).value;  // --> true as boolean
+    parser.params.get('c');  // --> true as boolean
 
 In Future (Not Implemented yet)
 ----------
-    result.paths.exist("path2"); // --> true
-    result.paths.exist("somepath"); // --> false
-    result.paths.indexOf("path1"); // --> 0
-    result.paths.indexOf("path2"); // --> 1
+    parser.paths.exist("path2"); // --> true
+    parser.paths.exist("somepath"); // --> false
+    parser.paths.indexOf("path1"); // --> 0
+    parser.paths.indexOf("path2"); // --> 1
     
-    result.params.exist('a'); // --> true
+    parser.params.exist('a'); // --> true
 
-    result.params.exist('b'); // --> true
-    result.params.exist('c'); // --> true
+    parser.params.exist('b'); // --> true
+    parser.params.exist('c'); // --> true
 
 License
 -------

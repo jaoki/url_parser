@@ -14,26 +14,24 @@
 			strictEqual(parser._url, undefined);
 			strictEqual(parser.url, undefined);
 
-			var result = parser.parse();
+			strictEqual(parser.paths.get(0), "path1");
+			strictEqual(parser.paths.get(1), "path2");
+			strictEqual(parser.paths.get(2), undefined);
+			strictEqual(parser.paths._paths, undefined, "paths is encapsulated");
 
-			strictEqual(result.paths.get(0), "path1");
-			strictEqual(result.paths.get(1), "path2");
-			strictEqual(result.paths.get(2), undefined);
-			strictEqual(result.paths._paths, undefined, "paths is encapsulated");
+			strictEqual(parser.fragment, "target1", "fragment test");
 
-			strictEqual(result.fragment, "target1", "fragment test");
+			strictEqual(parser.params.get(0).name, "a");
+			strictEqual(parser.params.get(0).value, "some");
+			strictEqual(parser.params.get('a'), "some");
 
-			strictEqual(result.params.get(0).name, "a");
-			strictEqual(result.params.get(0).value, "some");
-			strictEqual(result.params.get('a'), "some");
+			strictEqual(parser.params.get(1).name, "b");
+			strictEqual(parser.params.get(1).value, 1);
+			strictEqual(parser.params.get('b'), 1);
 
-			strictEqual(result.params.get(1).name, "b");
-			strictEqual(result.params.get(1).value, 1);
-			strictEqual(result.params.get('b'), 1);
-
-			strictEqual(result.params.get(2).name, "c");
-			strictEqual(result.params.get(2).value, true);
-			strictEqual(result.params.get('c'), true);
+			strictEqual(parser.params.get(2).name, "c");
+			strictEqual(parser.params.get(2).value, true);
+			strictEqual(parser.params.get('c'), true);
 
 		});
 
@@ -41,27 +39,24 @@
 			var parser = new UrlParser();
 			ok(parser.getUrl().indexOf("/test.html") != -1);
 
-			var result = parser.parse();
-
 			var fileNameFound = false;
-			for(var i = 0; i < result.paths.length(); i++){
-				if(result.paths.get(i) === "test.html"){
+			for(var i = 0; i < parser.paths.length(); i++){
+				if(parser.paths.get(i) === "test.html"){
 					fileNameFound = true;
 					break;
 				}
 			}
 			ok(fileNameFound, "test.html should be in one of the path");
 
-			strictEqual(result.fragment, undefined, "no fragment");
+			strictEqual(parser.fragment, undefined, "no fragment");
 
 		});
 
 		test("simple", function(){
 			var parser = new UrlParser("http://example.com?a=12");
-			var result = parser.parse();
-			strictEqual(result.params.get(0).name, "a");
-			strictEqual(result.params.get(0).value, 12);
-			strictEqual(result.params.get("a"), 12);
+			strictEqual(parser.params.get(0).name, "a");
+			strictEqual(parser.params.get(0).value, 12);
+			strictEqual(parser.params.get("a"), 12);
 
 		});
 
