@@ -60,6 +60,7 @@ function UrlParser(url){
 	// Analyze query parameters
 	function ParamsClass(params){
 		var _params = params;
+
 		this.get = function(index){
 			if(typeof index === "string"){
 				for(var i = 0; i < _params.length; i++){
@@ -71,6 +72,20 @@ function UrlParser(url){
 				return _params[index];
 			}
 		}
+
+		this.exists = function(index){
+			if(typeof index === "string"){
+				for(var i = 0; i < _params.length; i++){
+					if(_params[i].name == index){
+						return true;
+					}
+				}
+				return false;
+			}else if(typeof index == "number"){
+				return _params[index] !== undefined;
+			}
+		}
+
 	}
 
 

@@ -19,26 +19,29 @@ Usage
     parser.params.get(0).value;  // --> "some" as string
     parser.params.get('a');  // --> "some" as string
     
+    parser.params.exists(1);  // --> true
+    parser.params.exists("b");  // --> true
     parser.params.get(1).name;  // --> "b"
     parser.params.get(1).value;  // --> 1 as number
     parser.params.get('b');  // --> 1 as number
     
 
+    parser.params.exists("c");  // --> true
+    parser.params.exists(2);  // --> true
     parser.params.get(2).name;  // --> "c"
     parser.params.get(2).value;  // --> true as boolean
     parser.params.get('c');  // --> true as boolean
 
+    parser.params.exists(100);  // --> false
+    parser.params.exists("param1");  // --> false
+
 In Future (Not Implemented yet)
 ----------
-    parser.paths.exist("path2"); // --> true
-    parser.paths.exist("somepath"); // --> false
+    parser.paths.exists("path2"); // --> true
+    parser.paths.exists("somepath"); // --> false
+
     parser.paths.indexOf("path1"); // --> 0
     parser.paths.indexOf("path2"); // --> 1
-    
-    parser.params.exist('a'); // --> true
-
-    parser.params.exist('b'); // --> true
-    parser.params.exist('c'); // --> true
 
 License
 -------

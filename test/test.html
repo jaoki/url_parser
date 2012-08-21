@@ -62,7 +62,34 @@
 
 			// TODO add more url tests
 
-			// TODO http://example.com?a=some&b=1&c=true#target1
+		test("simple2", function(){
+			var parser = new UrlParser("http://example.com?a=some&b=1&c=true#target1");
+
+			strictEqual(parser.params.exists("a"), true);
+			strictEqual(parser.params.exists(0), true);
+			strictEqual(parser.params.get(0).name, "a");
+			strictEqual(parser.params.get(0).value, "some");
+			strictEqual(parser.params.get("a"), "some");
+
+			strictEqual(parser.params.exists("b"), true);
+			strictEqual(parser.params.exists(1), true);
+			strictEqual(parser.params.get("b"), 1);
+			strictEqual(parser.params.get(1).value, 1);
+			strictEqual(parser.params.get(1).name, "b");
+
+			strictEqual(parser.params.exists("c"), true);
+			strictEqual(parser.params.exists(2), true);
+			strictEqual(parser.params.get(2).name, "c");
+			strictEqual(parser.params.get(2).value, true);
+			strictEqual(parser.params.get("c"), true);
+			strictEqual(parser.fragment, "target1");
+
+			strictEqual(parser.params.exists("d"), false);
+			strictEqual(parser.params.exists(3), false);
+
+		});
+
+			// TODO 
 			// TODO http://example.com/path1/path2#target1
 			// TODO http://example.com/path1/path2?a=some1&b=1&c=true
 
