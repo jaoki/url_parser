@@ -10,9 +10,16 @@ Usage
 
     var parser = new UrlParser("http://example.com/path1/path2?a=some&b=1&c=true#target1");
     
+    parser.paths.exists("path1"); // --> true
+    parser.paths.exists("path2"); // --> true
+    parser.paths.exists("somepath"); // --> false
+    parser.paths.exists(0); // --> true
+    parser.paths.exists(1); // --> true
+    parser.paths.exists(2); // --> false
+    
     parser.paths.get(0); // --> "path1"
     parser.paths.get(1); // --> "path2"
-    
+
     parser.fragment;  // --> "target1"
     
     parser.params.get(0).name;  // --> "a"
@@ -37,9 +44,6 @@ Usage
 
 In Future (Not Implemented yet)
 ----------
-    parser.paths.exists("path2"); // --> true
-    parser.paths.exists("somepath"); // --> false
-
     parser.paths.indexOf("path1"); // --> 0
     parser.paths.indexOf("path2"); // --> 1
 
@@ -47,7 +51,7 @@ License
 -------
 
 The MIT License (MIT)
-Copyright (c) 2012 Jun Aoki <jun.aoki.dev@gmail.com>
+Copyright (c) 2012 Jun Aoki <jun.aoki.dev@gmail.com> https://github.com/jaoki/url_parser
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

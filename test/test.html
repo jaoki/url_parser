@@ -13,6 +13,7 @@
 			strictEqual(parser.getPathStart(), 19);
 			strictEqual(parser._url, undefined);
 			strictEqual(parser.url, undefined);
+			strictEqual(parser.parse, undefined);
 
 			strictEqual(parser.paths.get(0), "path1");
 			strictEqual(parser.paths.get(1), "path2");
@@ -89,8 +90,26 @@
 
 		});
 
-			// TODO 
-			// TODO http://example.com/path1/path2#target1
+		test("simple3", function(){
+			var parser = new UrlParser("http://example.com/path1/path2#target1");
+
+			strictEqual(parser.paths.exists("path1"), true);
+			strictEqual(parser.paths.exists(0), true);
+			strictEqual(parser.paths.exists("path2"), true);
+			strictEqual(parser.paths.exists(1), true);
+			strictEqual(parser.paths.exists("path3"), false);
+			strictEqual(parser.paths.exists(2), false);
+
+			strictEqual(parser.paths.get(0), "path1");
+			strictEqual(parser.paths.get(1), "path2");
+			strictEqual(parser.paths.get(2), undefined);
+
+			strictEqual(parser.fragment, "target1");
+
+			strictEqual(parser.params.exists(0), false);
+
+		});
+
 			// TODO http://example.com/path1/path2?a=some1&b=1&c=true
 
 			// TODO http://example.com?a=some&b=1&c=true

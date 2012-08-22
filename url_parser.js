@@ -41,6 +41,20 @@ function UrlParser(url){
 			return _paths[index];
 		};
 
+		this.exists = function(index){
+			if(typeof index === "string"){
+				for(var i = 0; i < _paths.length; i++){
+					if(_paths[i] == index){
+						return true;
+					}
+				}
+				return false;
+			}else if(typeof index == "number"){
+				return _paths[index] !== undefined;
+			}
+			return undefined;
+		};
+
 		this.length = function(){
 			return _paths.length;
 		};
@@ -48,10 +62,12 @@ function UrlParser(url){
 	}
 
 	if(this.pathStart === 0){
-		this.paths = new PathsClass(new Array());
+		this.paths = new PathsClass([]);
 	}else{
 		if(_queryExist){
 			this.paths = new PathsClass(_url.substring(this.pathStart, _queryStart - 1).split("/"));
+		}else if(_fragmentExist){
+			this.paths = new PathsClass(_url.substring(this.pathStart, _fragmentStart - 1).split("/"));
 		}else{
 			this.paths = new PathsClass(_url.substring(this.pathStart).split("/"));
 		}
@@ -84,6 +100,7 @@ function UrlParser(url){
 			}else if(typeof index == "number"){
 				return _params[index] !== undefined;
 			}
+			return undefined;
 		}
 
 	}
@@ -124,10 +141,6 @@ function UrlParser(url){
 
 	this.getUrl = function() {
 		return _url;
-	};
-
-	this.parse = function() {
-		return this;
 	};
 
 };
