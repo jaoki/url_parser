@@ -22,33 +22,32 @@ function UrlParser(url){
 		_url = url;
 	}
 
-	var _fragmentPosition = _url.indexOf("#");
-	var _fragmentExist = _fragmentPosition !== -1;
-	var _fragmentStart = _fragmentPosition;
+	var _fragmentMarkIndex = _url.indexOf("#");
+	var _fragmentExist = _fragmentMarkIndex !== -1;
 
 	var _protocolEnds = _url.indexOf("://") + 3;
 
-	var _pathStart = _url.substring(_protocolEnds).indexOf("/") + _protocolEnds + 1;
+	var _pathExist = _url.substring(_protocolEnds).indexOf("/") !== -1;
+	var _pathStart;
+	if(_pathExist)
+		_pathStart = _url.substring(_protocolEnds).indexOf("/") + _protocolEnds + 1;
 
-	var _questionMarkPosition = _url.indexOf("?");
+	var _questionMarkIndex = _url.indexOf("?");
 
-
-	var _queryExist;
-   	if(_questionMarkPosition !== -1 && _questionMarkPosition < _url.length){
+	var _queryExist = false;
+   	if(_questionMarkIndex !== -1){
 		if(_fragmentExist){
-			if(_questionMarkPosition < _fragmentPosition){
-				_queryExist	= true;
-			}else{
-				_queryExist	= false;
+			if(_questionMarkIndex < _fragmentMarkIndex - 1){
+				_queryExist = true;
 			}
 		}else{
-			_queryExist	= true;
+			if(_questionMarkIndex < _url.length - 1){
+				_queryExist = true;
+			}
 		}
-	}else{
-		_queryExist	= false;
 	}
 
-	var _queryStart = _url.indexOf("?") + 1;
+	var _queryStart = _questionMarkIndex + 1;
 
 	// analyze path
 	function PathsClass(paths){
@@ -78,16 +77,17 @@ function UrlParser(url){
 
 	}
 
-	if(_pathStart === 0){
-		this.paths = new PathsClass([]);
-	}else{
+//	if(_pathStart === 0){
+	if(_pathExist){
 		if(_queryExist){
 			this.paths = new PathsClass(_url.substring(_pathStart, _queryStart - 1).split("/"));
 		}else if(_fragmentExist){
-			this.paths = new PathsClass(_url.substring(_pathStart, _fragmentStart).split("/"));
+			this.paths = new PathsClass(_url.substring(_pathStart, _fragmentMarkIndex).split("/"));
 		}else{
 			this.paths = new PathsClass(_url.substring(_pathStart).split("/"));
 		}
+	}else{
+		this.paths = new PathsClass([]);
 	}
 
 	// Analyze query parameters
@@ -127,13 +127,12 @@ function UrlParser(url){
 
 
 	var params = new Array();
-//	if(_queryStart != 0){
 	if(_queryExist){
 		var numberPattern = new RegExp("^[0-9]*$");
 		
 		var querys;
 		if(_fragmentExist){
-			querys = _url.substring(_queryStart, _fragmentStart).split("&");
+			querys = _url.substring(_queryStart, _fragmentMarkIndex).split("&");
 		}else{
 			querys = _url.substring(_queryStart).split("&");
 		}
@@ -157,7 +156,7 @@ function UrlParser(url){
 	this.params = new ParamsClass(params);
 
 	if(_fragmentExist){
-		this.fragment = _url.substring(_fragmentStart + 1);
+		this.fragment = _url.substring(_fragmentMarkIndex + 1);
 	}
 
 	this.getUrl = function() {
