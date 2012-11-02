@@ -16,6 +16,7 @@ Usage
     parser.paths.exists(0); // --> true
     parser.paths.exists(1); // --> true
     parser.paths.exists(2); // --> false
+    parser.paths.length(); // --> 2
     
     parser.paths.get(0); // --> "path1"
     parser.paths.get(1); // --> "path2"

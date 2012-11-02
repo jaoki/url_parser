@@ -10,15 +10,16 @@
 			var parser = new UrlParser("http://example.com/path1/path2?a=some&b=1&c=true#target1");
 			strictEqual(typeof parser, "object");
 			strictEqual(parser.getUrl(), "http://example.com/path1/path2?a=some&b=1&c=true#target1");
-			strictEqual(parser.getPathStart(), 19);
+//			strictEqual(parser.getPathStart(), 19);
 			strictEqual(parser._url, undefined);
 			strictEqual(parser.url, undefined);
 			strictEqual(parser.parse, undefined);
 
 			strictEqual(parser.paths.get(0), "path1");
 			strictEqual(parser.paths.get(1), "path2");
+			strictEqual(parser.paths.length(), 2);
 			strictEqual(parser.paths.get(2), undefined);
-			strictEqual(parser.paths._paths, undefined, "paths is encapsulated");
+			strictEqual(parser.paths._paths, undefined, "_paths should be encapsulated");
 
 			strictEqual(parser.fragment, "target1", "fragment test");
 
@@ -107,6 +108,35 @@
 			strictEqual(parser.fragment, "target1");
 
 			strictEqual(parser.params.exists(0), false);
+
+		});
+
+		test("only_boolean", function(){
+			var parser = new UrlParser("http://example.com/path1/path2?boolparam=true");
+
+			strictEqual(parser.params.exists("boolparam"), true);
+			strictEqual(parser.params.get("boolparam"), true);
+			strictEqual(parser.params.length, 1);
+
+			parser = new UrlParser("http://example.com/path1/path2");
+
+			strictEqual(parser.paths.exists("boolparam"), false);
+			strictEqual(parser.params.get("boolparam"), undefined);
+
+		});
+
+		test("edge_case_only_question_mark", function(){
+			var parser = new UrlParser("http://example.com/path1/path2?");
+
+			strictEqual(parser.paths.exists("path1"), true);
+			strictEqual(parser.paths.exists(0), true);
+
+			strictEqual(parser.params.exists("boolparam"), false);
+			strictEqual(parser.params.get("boolparam"), undefined);
+
+			parser = new UrlParser("http://example.com?");
+			strictEqual(parser.paths.exists(0), false);
+			strictEqual(parser.params.exists("boolparam"), false);
 
 		});
 

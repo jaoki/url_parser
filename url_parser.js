@@ -1,7 +1,7 @@
 /**
  * 
  * The MIT License (MIT)
- * Copyright (c) 2012 Jun Aoki <jun.aoki.dev@gmail.com>
+ * Copyright (c) 2012 Jun Aoki <jun.aoki.dev@gmail.com> https://github.com/jaoki/url_parser
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  * 
@@ -22,16 +22,33 @@ function UrlParser(url){
 		_url = url;
 	}
 
+	var _fragmentPosition = _url.indexOf("#");
+	var _fragmentExist = _fragmentPosition !== -1;
+	var _fragmentStart = _fragmentPosition;
+
 	var _protocolEnds = _url.indexOf("://") + 3;
 
-	// TODO those will be private
-	this.pathStart = _url.substring(_protocolEnds).indexOf("/") + _protocolEnds + 1;
+	var _pathStart = _url.substring(_protocolEnds).indexOf("/") + _protocolEnds + 1;
 
-	var _queryExist = _url.indexOf("?") !== -1;
+	var _questionMarkPosition = _url.indexOf("?");
+
+
+	var _queryExist;
+   	if(_questionMarkPosition !== -1 && _questionMarkPosition < _url.length){
+		if(_fragmentExist){
+			if(_questionMarkPosition < _fragmentPosition){
+				_queryExist	= true;
+			}else{
+				_queryExist	= false;
+			}
+		}else{
+			_queryExist	= true;
+		}
+	}else{
+		_queryExist	= false;
+	}
+
 	var _queryStart = _url.indexOf("?") + 1;
-
-	var _fragmentExist = _url.indexOf("#") !== -1;
-	var _fragmentStart = _url.indexOf("#") + 1;
 
 	// analyze path
 	function PathsClass(paths){
@@ -61,15 +78,15 @@ function UrlParser(url){
 
 	}
 
-	if(this.pathStart === 0){
+	if(_pathStart === 0){
 		this.paths = new PathsClass([]);
 	}else{
 		if(_queryExist){
-			this.paths = new PathsClass(_url.substring(this.pathStart, _queryStart - 1).split("/"));
+			this.paths = new PathsClass(_url.substring(_pathStart, _queryStart - 1).split("/"));
 		}else if(_fragmentExist){
-			this.paths = new PathsClass(_url.substring(this.pathStart, _fragmentStart - 1).split("/"));
+			this.paths = new PathsClass(_url.substring(_pathStart, _fragmentStart).split("/"));
 		}else{
-			this.paths = new PathsClass(_url.substring(this.pathStart).split("/"));
+			this.paths = new PathsClass(_url.substring(_pathStart).split("/"));
 		}
 	}
 
@@ -107,12 +124,13 @@ function UrlParser(url){
 
 
 	var params = new Array();
-	if(_queryStart != 0){
+//	if(_queryStart != 0){
+	if(_queryExist){
 		var numberPattern = new RegExp("^[0-9]*$");
 		
 		var querys;
 		if(_fragmentExist){
-			querys = _url.substring(_queryStart, _fragmentStart - 1).split("&");
+			querys = _url.substring(_queryStart, _fragmentStart).split("&");
 		}else{
 			querys = _url.substring(_queryStart).split("&");
 		}
@@ -135,19 +153,14 @@ function UrlParser(url){
 
 	this.params = new ParamsClass(params);
 
-	if(_fragmentStart != 0){
-		this.fragment = _url.substring(_fragmentStart);
+	if(_fragmentExist){
+		this.fragment = _url.substring(_fragmentStart + 1);
 	}
 
 	this.getUrl = function() {
 		return _url;
 	};
 
-};
-
-// TODO hide this
-UrlParser.prototype.getPathStart = function() {
-    return this.pathStart;
 };
 
 
