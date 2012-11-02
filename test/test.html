@@ -116,7 +116,7 @@
 
 			strictEqual(parser.params.exists("boolparam"), true);
 			strictEqual(parser.params.get("boolparam"), true);
-			strictEqual(parser.params.length, 1);
+			strictEqual(parser.params.length(), 1);
 
 			parser = new UrlParser("http://example.com/path1/path2");
 

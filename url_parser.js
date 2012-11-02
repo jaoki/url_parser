@@ -120,6 +120,9 @@ function UrlParser(url){
 			return undefined;
 		}
 
+		this.length = function(){
+			return _params.length;
+		};
 	}
 
 
